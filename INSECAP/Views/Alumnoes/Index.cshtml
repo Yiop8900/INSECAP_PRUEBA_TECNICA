@@ -1,0 +1,57 @@
+﻿@model IEnumerable<INSECAP.Models.Alumno>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Administracion Alumnado</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Agregar un Nuevo Alumno</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Rut del Alumno
+            </th>
+            <th>
+                Nombre Completo
+            </th>
+            <th>
+                Fecha de Nacimiento
+            </th>
+            <th>
+                Genero
+            </th>
+            <th>
+                Opciones del Alumno
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.RunAlumno)-@Html.DisplayFor(modelItem => item.DvAlumno)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genero)
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.RunAlumno">Editar</a> |
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.RunAlumno">Detalles</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.RunAlumno">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
