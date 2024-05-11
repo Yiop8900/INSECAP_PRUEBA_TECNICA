@@ -13,6 +13,7 @@ namespace INSECAP.Controllers
     {
         private readonly CapacitacionesContext _context;
 
+
         public AlumnoesController(CapacitacionesContext context)
         {
             _context = context;
@@ -38,7 +39,7 @@ namespace INSECAP.Controllers
             {
                 return NotFound();
             }
-
+                             
             return View(alumno);
         }
 

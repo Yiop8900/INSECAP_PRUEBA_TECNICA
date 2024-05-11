@@ -25,7 +25,7 @@ namespace INSECAP.Controllers
             return View(await capacitacionesContext.ToListAsync());
         }
 
-        // GET: AsignacionCursosAlus/Details/5
+        // GET: AsignacionCursosAlus/Dettalles
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,7 +47,7 @@ namespace INSECAP.Controllers
             return View(asignacionCursosAlu);
         }
 
-        // GET: AsignacionCursosAlus/Create
+        // GET: AsignacionCursosAlus/Crear
         public IActionResult Create()
         {
             ViewData["CodigoCurso"] = new SelectList(_context.Cursos, "CodigoCurso", "CodigoCurso");
@@ -77,7 +77,7 @@ namespace INSECAP.Controllers
             return View(asignacionCursosAlu);
         }
 
-        // GET: AsignacionCursosAlus/Edit/5
+        // GET: AsignacionCursosAlus/Editar
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,7 +97,7 @@ namespace INSECAP.Controllers
             return View(asignacionCursosAlu);
         }
 
-        // POST: AsignacionCursosAlus/Edit/5
+        // POST: AsignacionCursosAlus/Editar
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -136,7 +136,7 @@ namespace INSECAP.Controllers
             return View(asignacionCursosAlu);
         }
 
-        // GET: AsignacionCursosAlus/Delete/5
+        // GET: AsignacionCursosAlus/Eliminar
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,7 +158,7 @@ namespace INSECAP.Controllers
             return View(asignacionCursosAlu);
         }
 
-        // POST: AsignacionCursosAlus/Delete/5
+        // POST: AsignacionCursosAlus/Eliminar
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

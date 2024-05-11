@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<INSECAP.Models.Alumno>
 
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,6 +9,9 @@
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Agregar un Nuevo Alumno</a>
+</p>
+<p>
+    <a class="btn btn-warning" asp-area="" asp-controller="AsignacionCursosAlus" asp-action="index">Asignar un Curso</a>
 </p>
 <table class="table table-striped">
     <thead>

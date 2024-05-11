@@ -4,48 +4,50 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Asignaciones de los Alumnos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Asignar un Curso a un Alumno</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CodigoCursoNavigation)
+                Codigo y Nombre del Curso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CodigoSalaNavigation)
+                Sala Asignada
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdBimestreNavigation)
+                Fecha de Inicio
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RunAlumnoNavigation)
+               Nombre Completo
             </th>
-            <th></th>
+            <th>
+                Opciones de la Asignacion
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.CodigoCurso)
+                    @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.CodigoCurso) - @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.NombreCurso)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CodigoSalaNavigation.CodigoSala)
+                    @Html.DisplayFor(modelItem => item.CodigoSalaNavigation.CodigoSala)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdBimestreNavigation.IdBimestre)
+                @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaInicio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RunAlumnoNavigation.RunAlumno)
+                    @Html.DisplayFor(modelItem => item.RunAlumnoNavigation.Nombre) @Html.DisplayFor(modelItem => item.RunAlumnoNavigation.Apellido)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdAsignacion">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdAsignacion">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdAsignacion">Delete</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.IdAsignacion">Editar Asignacion</a> |
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdAsignacion">Detalles de la Asignacion</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdAsignacion">Eliminar Asignacion</a>
             </td>
         </tr>
 }

@@ -4,55 +4,84 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Alumno</h4>
+<h1>Guardar un Nuevo Alumno</h1>
+<div style="margin-top: 5px ;">
+    <a class="btn btn-dark" asp-action="Index">Volver a la Lista</a>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RunAlumno" class="control-label"></label>
-                <input asp-for="RunAlumno" class="form-control" />
+            <div class="form-group" >
+                <label asp-for="RunAlumno" class="control-label">Rut del Alumno</label>
+                <input asp-for="RunAlumno" class="form-control" minlength="8" maxlength="8" placeholder="Sin puntos ni digito verificador" />
                 <span asp-validation-for="RunAlumno" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DvAlumno" class="control-label"></label>
-                <input asp-for="DvAlumno" class="form-control" />
+            <div class="form-group" style="margin-top:3px;">
+                <label asp-for="DvAlumno" class="control-label">Digito Verificador</label>
+                <input asp-for="DvAlumno" class="form-control" minlength="1" maxlength="1" pattern="[Kk0-9]" placeholder="K o Número" />
                 <span asp-validation-for="DvAlumno" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
+            <div class="form-group" style="margin-top:3px;">
+                <label asp-for="Nombre" class="control-label">Nombre del Alumno</label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
+            <div class="form-group" style="margin-top:3px;">
+                <label asp-for="Apellido" class="control-label">Apellido del Alumno</label>
                 <input asp-for="Apellido" class="form-control" />
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
+            <div class="form-group" style="margin-top:3px;">
+                <label asp-for="FechaNacimiento" class="control-label">Fecha de Nacimiento</label>
+                <input type="date" asp-for="FechaNacimiento" class="form-control" id="fechaNacimiento" placeholder="DD-MM-YYYY"/>
+                <span id="fechaNacimientoError" class="text-danger"></span>
                 <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Genero" class="control-label"></label>
-                <input asp-for="Genero" class="form-control" />
+            <div class="form-group" style="margin-top: 3px ;">
+                <label class="control-label">Género</label><br>
+                <label class="radio-inline">
+                    <input type="radio" asp-for="Genero" value="M" id="generoM" checked /> Masculino
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" asp-for="Genero" value="F" id="generoF" /> Femenino
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" asp-for="Genero" value="O" id="generoO" /> Otro
+                </label>
                 <span asp-validation-for="Genero" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" style="margin-top:3px;">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
+    <div class="col-md-8">
+
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+
+<script>
+    document.getElementById("fechaNacimiento").addEventListener("change", function () {
+        var selectedDate = new Date(this.value);
+        var currentDate = new Date();
+        currentDate.setFullYear(currentDate.getFullYear() - 18);
+
+        if (selectedDate > currentDate) {
+            document.getElementById("fechaNacimientoError").textContent = "Debes ser mayor de 18 años";
+            this.value = ""; // Limpiar el valor del campo
+        } else {
+            document.getElementById("fechaNacimientoError").textContent = "";
+        }
+    });
+</script>
