@@ -46,6 +46,7 @@ namespace INSECAP.Controllers
         // GET: Alumnoes/Create
         public IActionResult Create()
         {
+            
             return View();
         }
 
@@ -58,10 +59,23 @@ namespace INSECAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Verifica si el alumno ya existe en la base de datos
+                var existingAlumno = await _context.Alumnos.FirstOrDefaultAsync(a => a.RunAlumno == alumno.RunAlumno);
+                if (existingAlumno != null)
+                {
+                    TempData["MensajeError"] = "Este alumno ya se encuentra registrado.";
+                    return RedirectToAction(nameof(Create));
+                }
+
+                // Si el alumno no existe, guarda el nuevo alumno en la base de datos
                 _context.Add(alumno);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Establece un mensaje de éxito en TempData
+                TempData["MensajeExito"] = "Alumno guardado exitosamente.";
+                return RedirectToAction(nameof(Create));
             }
+
             return View(alumno);
         }
 
