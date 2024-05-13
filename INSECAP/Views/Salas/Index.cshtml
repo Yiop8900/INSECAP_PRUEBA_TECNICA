@@ -4,36 +4,69 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Listado de Salas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Agregar una nueva Sala</a>
 </p>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    // Función para mostrar una alerta de éxito
+    @if (TempData.ContainsKey("MensajeExito"))
+    {
+        var mensajeExito = TempData["MensajeExito"] as string;
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito!',
+                text: '@mensajeExito'
+            }).then(function () {
+                // Redirige al usuario a la página "Create"
+                window.location.href = '@Url.Action("Index", "Salas")';
+            });
+        </text>
+    }
+</script>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CapacidadMaxima)
+                CODIGO DE LA SALA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CaracteristicasEspeciales)
+                CAPACIDAD TOTAL DE LA SALA
             </th>
-            <th></th>
+            <th>
+                MANTIENE CARACTERISTICAS ESPECIALES
+            </th>
+            <th>OPCIONES</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.CodigoSala)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.CapacidadMaxima)
             </td>
+                <td>
+                    @if (item.CaracteristicasEspeciales == 0)
+                    {
+                        @:No
+                    }
+                    else if (item.CaracteristicasEspeciales == 1)
+                    {
+                        @:Sí
+                    }
+                </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.CaracteristicasEspeciales)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CodigoSala">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CodigoSala">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CodigoSala">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.CodigoSala" class="btn btn-warning">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.CodigoSala" class="btn btn-info">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.CodigoSala" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
 }

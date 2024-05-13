@@ -38,7 +38,7 @@
                 CURSO
             </th>
             <th>
-                INCIO DEL BIMESTRE
+                INCIO Y FIN DEL BIMESTRE
             </th>
             <th>
                 RUT DEL PROFESOR
@@ -58,7 +58,7 @@
                     @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.CodigoCurso) - @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.NombreCurso)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaInicio)
+                    @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaInicio) - @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaFin)
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.RunProfesorNavigation.RunProfesor)-@Html.DisplayFor(modelItem => item.RunProfesorNavigation.DvProfesor)

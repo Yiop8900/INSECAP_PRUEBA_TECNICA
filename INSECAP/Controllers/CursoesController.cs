@@ -57,9 +57,17 @@ namespace INSECAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existingCurso = await _context.Cursos.FirstOrDefaultAsync(a => a.CodigoCurso == curso.CodigoCurso);
+                if (existingCurso != null)
+                {
+                    TempData["MensajeError"] = "Este curso ya se encuentra registrado.";
+                    return RedirectToAction(nameof(Create));
+                }
+
                 _context.Add(curso);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["MensajeExito"] = "Curso guardado exitosamente.";
+                return RedirectToAction(nameof(Create));
             }
             return View(curso);
         }
@@ -97,10 +105,13 @@ namespace INSECAP.Controllers
                 try
                 {
                     _context.Update(curso);
+                    TempData["MensajeExito"] = "Editado exitosamente.";
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Edit));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    TempData["MensajeError"] = "Error al editar: " + ex.Message;
                     if (!CursoExists(curso.CodigoCurso))
                     {
                         return NotFound();
@@ -145,6 +156,7 @@ namespace INSECAP.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["MensajeExito"] = "Curso Eliminado Exitosamente.";
             return RedirectToAction(nameof(Index));
         }
 

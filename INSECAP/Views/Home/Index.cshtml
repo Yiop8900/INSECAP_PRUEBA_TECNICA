@@ -2,7 +2,78 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<style>
+
+
+    .container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .description {
+        max-width: 50%;
+    }
+
+    
+</style>
+    <div class="container">
+    <img src="~/img/escuela.jpg" alt="Imagen de una escuela" class="imagen_inicio shadow_img">
+        <div class="description" style="margin-left:20px;">
+            <h1>Bienvenido a Capacitando</h1>
+        <p>
+            Bienvenido a nuestra escuela, un lugar donde la educación y el aprendizaje cobran vida. 
+            Aquí, nos esforzamos por proporcionar un entorno de aprendizaje seguro, inclusivo y estimulante que fomenta la curiosidad 
+            y el amor por el conocimiento en cada estudiante.
+            <br />
+            Nuestra escuela es un crisol de diversas culturas y experiencias, 
+            lo que nos permite ofrecer una educación integral que va más allá de los libros de texto. 
+            Creemos en el desarrollo holístico de nuestros estudiantes, equilibrando la excelencia académica con 
+            las habilidades para la vida, el deporte, las artes y el servicio comunitario.
+        </p>
+        </div>
+        
+    </div>
+<hr />
+<h3 style="text-align: center; margin-bottom:2%; margin-top:2%;">Eventos Especiales.</h3>
+<div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom:5%;">
+    <div class="col">
+        <div class="card h-100 tarjeta ">
+            <img src="~/img/Dia_Nevado.jpg" class="card-img-top" alt="Dia Nevado" style="max-height:50%;">
+            <div class="card-body">
+                <h5 class="card-title">Cae Nieve en Nuestro Establecimiento</h5>
+                <p class="card-text">El colegio se transforma en un paisaje de ensueño 
+                    con la llegada de la nevada. Los copos de nieve caen suavemente, cubriendo el 
+                    terreno con un manto blanco y puro. Los árboles del patio parecen esculturas de cristal, 
+                    sus ramas pesadas con la nieve fresca. Los edificios del colegio, con sus techos 
+                    blancos y paredes resaltadas por el contraste, parecen sacados de una postal.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 tarjeta">
+            <img src="~/img/Desfile.jpg" class="card-img-top" alt="Desfile" style="max-height:50%;">
+            <div class="card-body">
+                <h5 class="card-title">Desfile de Colores</h5>
+                <p class="card-text">El colegio se llena de vida y color durante el desfile. 
+                    Los estudiantes, vestidos con uniformes impecables y rostros brillantes, 
+                    marchan con orgullo y entusiasmo. Las bandas de música tocan melodías alegres 
+                    que resuenan en todo el campus, mientras los espectadores aplauden y vitorean.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 tarjeta">
+            <img src="~/img/dia_Libro.jpg" class="card-img-top" alt="dia del libro" style="max-height:50%;">
+            <div class="card-body">
+                <h5 class="card-title">Dia del Libro</h5>
+                <p class="card-text">El Día del Libro en nuestro colegio es una celebración de 
+                    la literatura y el amor por la lectura. Los pasillos y las aulas se transforman 
+                    en un laberinto de historias, con exposiciones de libros, lecturas en voz alta y 
+                    talleres de escritura creativa.</p>
+            </div>
+        </div>
+    </div>
 </div>

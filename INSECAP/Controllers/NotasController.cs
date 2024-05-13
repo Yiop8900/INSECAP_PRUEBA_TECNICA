@@ -62,11 +62,26 @@ namespace INSECAP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdNota,RunAlumno,CodigoCurso,IdBimestre,Nota1")] Nota nota)
         {
+            ModelState.Remove("CodigoCursoNavigation");
+            ModelState.Remove("RunAlumnoNavigation");
+            ModelState.Remove("IdBimestreNavigation");
+
             if (ModelState.IsValid)
             {
+                var lastNota = await _context.Notas.OrderByDescending(a => a.IdNota).FirstOrDefaultAsync();
+                nota.IdNota = (lastNota != null ? lastNota.IdNota : 0) + 1;
+
+                var existingNota = await _context.Notas.FirstOrDefaultAsync(a => a.IdNota == nota.IdNota);
+                if (existingNota != null)
+                {
+                    TempData["MensajeError"] = "Esta nota ya existe.";
+                    return RedirectToAction(nameof(Create));
+
+                }
                 _context.Add(nota);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["MensajeExito"] = "Nota Agregada Correctamente.";
+                return RedirectToAction(nameof(Create));
             }
             ViewData["CodigoCurso"] = new SelectList(_context.Cursos, "CodigoCurso", "CodigoCurso", nota.CodigoCurso);
             ViewData["IdBimestre"] = new SelectList(_context.Bimestres, "IdBimestre", "IdBimestre", nota.IdBimestre);
@@ -100,6 +115,9 @@ namespace INSECAP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdNota,RunAlumno,CodigoCurso,IdBimestre,Nota1")] Nota nota)
         {
+            ModelState.Remove("CodigoCursoNavigation");
+            ModelState.Remove("RunAlumnoNavigation");
+            ModelState.Remove("IdBimestreNavigation");
             if (id != nota.IdNota)
             {
                 return NotFound();
@@ -110,10 +128,13 @@ namespace INSECAP.Controllers
                 try
                 {
                     _context.Update(nota);
+                    TempData["MensajeExito"] = "Editado Correctamente.";
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Edit));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    TempData["MensajeError"] = "Error al editar: " + ex.Message;
                     if (!NotaExists(nota.IdNota))
                     {
                         return NotFound();
@@ -164,6 +185,7 @@ namespace INSECAP.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["MensajeExito"] = "Eliminado Correctamente.";
             return RedirectToAction(nameof(Index));
         }
 

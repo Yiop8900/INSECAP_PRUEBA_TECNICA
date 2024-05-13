@@ -4,27 +4,39 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalles de la Sala</h1>
 
 <div>
-    <h4>Sala</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CapacidadMaxima)
+        <dt class="col-sm-3">
+            CODIGO DE LA SALA
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CodigoSala)
+        </dd>
+        <dt class = "col-sm-3">
+            CAPACIDAD MAXIMA
+        </dt>
+        <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.CapacidadMaxima)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CaracteristicasEspeciales)
+        <dt class = "col-sm-3">
+            CARACTERISTICAS ESPECIALES
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CaracteristicasEspeciales)
+        <dd class = "col-sm-9">
+            @if (Model.CaracteristicasEspeciales == 0)
+            {
+                @:No
+            }
+            else if (Model.CaracteristicasEspeciales == 1)
+            {
+                @:Sí
+            }
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.CodigoSala">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.CodigoSala" class="btn btn-info">Editar</a> |
+    <a asp-action="Index" class="btn btn-dark">Volver al Listado</a>
 </div>

@@ -4,30 +4,42 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Eliminar Sala</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>¿Esta seguro de eliminar este registro?</h3>
 <div>
-    <h4>Sala</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CapacidadMaxima)
+        <dt class="col-sm-3">
+            CODGO DE LA SALA
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.CapacidadMaxima)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CaracteristicasEspeciales)
+        <dt class = "col-sm-3">
+            CAPACIDAD MAXIMA
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CaracteristicasEspeciales)
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.CapacidadMaxima)
+        </dd>
+        <dt class = "col-sm-3">
+            TIENE CARACTERISTICAS ESPECIALES
+        </dt>
+        <dd class = "col-sm-9">
+            @if (Model.CaracteristicasEspeciales == 0)
+                    {
+                        @:No
+                    }
+                    else if (Model.CaracteristicasEspeciales == 1)
+                    {
+                        @:Sí
+                    }
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="CodigoSala" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-dark">Volver al Listado</a>
     </form>
 </div>

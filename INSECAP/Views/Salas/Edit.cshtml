@@ -10,29 +10,74 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+        <script>
+            // Función para mostrar una alerta de error
+            @if (TempData.ContainsKey("MensajeError"))
+            {
+                var mensajeError = TempData["MensajeError"] as string;
+                <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '@mensajeError'
+                    });
+                </text>
+            }
+
+                // Función para mostrar una alerta de éxito
+            @if (TempData.ContainsKey("MensajeExito"))
+            {
+                var mensajeExito = TempData["MensajeExito"] as string;
+                <text>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito!',
+                        text: '@mensajeExito'
+                    }).then(function () {
+                        // Redirige al usuario a la página "index"
+                        window.location.href = '@Url.Action("Index", "Salas")';
+                    });
+                </text>
+            }
+        </script>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CodigoSala" />
             <div class="form-group">
-                <label asp-for="CapacidadMaxima" class="control-label"></label>
-                <input asp-for="CapacidadMaxima" class="form-control" />
+                <label asp-for="CodigoSala" class="control-label">CODIGO DE LA SALA</label>
+                <input asp-for="CodigoSala" class="form-control form_alumno" readonly/>
+                <span asp-validation-for="CodigoSala" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CapacidadMaxima" class="control-label">CAPACIDAD MAXIMA</label>
+                <input asp-for="CapacidadMaxima" class="form-control form_alumno" />
                 <span asp-validation-for="CapacidadMaxima" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CaracteristicasEspeciales" class="control-label"></label>
-                <input asp-for="CaracteristicasEspeciales" class="form-control" />
+                <label asp-for="CaracteristicasEspeciales" class="control-label">CARACTERISTICAS ESPECIALES</label>
+                <div class="form-check">
+                    <input asp-for="CaracteristicasEspeciales" value="1" type="radio" class="form-check-input" id="siOption" />
+                    <label class="form-check-label" for="siOption">Sí</label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="CaracteristicasEspeciales" value="0" type="radio" class="form-check-input" id="noOption" />
+                    <label class="form-check-label" for="noOption">No</label>
+                </div>
                 <span asp-validation-for="CaracteristicasEspeciales" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" /> | <a asp-action="Index" class="btn btn-dark">Volver al Listado</a>
             </div>
         </form>
     </div>
+    <div class="col-md-8">
+        <img src="~/img/informatico.jpg" alt="Alternate Text" class="imagen_guardar_alumno"/>
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

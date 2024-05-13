@@ -92,12 +92,12 @@ public partial class CapacitacionesContext : DbContext
 
             entity.HasOne(d => d.CodigoCursoNavigation).WithMany(p => p.AsignacionCursosAlus)
                 .HasForeignKey(d => d.CodigoCurso)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Asignacion_Cursos_Alu_Curso");
 
             entity.HasOne(d => d.CodigoSalaNavigation).WithMany(p => p.AsignacionCursosAlus)
                 .HasForeignKey(d => d.CodigoSala)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Asignacion_Cursos_Alu_Sala");
 
             entity.HasOne(d => d.IdBimestreNavigation).WithMany(p => p.AsignacionCursosAlus)
@@ -132,12 +132,12 @@ public partial class CapacitacionesContext : DbContext
 
             entity.HasOne(d => d.CodigoCursoNavigation).WithMany(p => p.AsignacionCursosPros)
                 .HasForeignKey(d => d.CodigoCurso)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Asignacion_Cursos_Pro_Curso");
 
             entity.HasOne(d => d.IdBimestreNavigation).WithMany(p => p.AsignacionCursosPros)
                 .HasForeignKey(d => d.IdBimestre)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Asignacion_Cursos_Pro_Bimestre");
 
             entity.HasOne(d => d.RunProfesorNavigation).WithMany(p => p.AsignacionCursosPros)
@@ -193,7 +193,7 @@ public partial class CapacitacionesContext : DbContext
 
             entity.HasOne(d => d.CodigoCursoNavigation).WithMany(p => p.Nota)
                 .HasForeignKey(d => d.CodigoCurso)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Notas_Curso");
 
             entity.HasOne(d => d.IdBimestreNavigation).WithMany(p => p.Nota)

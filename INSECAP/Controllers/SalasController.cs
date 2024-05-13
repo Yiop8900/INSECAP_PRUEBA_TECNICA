@@ -57,9 +57,15 @@ namespace INSECAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existingSala = await _context.Salas.FirstOrDefaultAsync(a => a.CodigoSala == sala.CodigoSala);
+                if (existingSala != null)
+                {
+                    TempData["MensajeError"] = "Esta sala ya se encuentra registrada.";
+                }
                 _context.Add(sala);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["MensajeExito"] = "Sala agregada con Exito.";
+                return RedirectToAction(nameof(Create));
             }
             return View(sala);
         }
@@ -97,10 +103,13 @@ namespace INSECAP.Controllers
                 try
                 {
                     _context.Update(sala);
+                    TempData["MensajeExito"] = "Sala Editada Exitosamente.";
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Edit));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    TempData["MensajeError"] = "Error al editar: " + ex.Message;
                     if (!SalaExists(sala.CodigoSala))
                     {
                         return NotFound();
@@ -145,6 +154,7 @@ namespace INSECAP.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["MensajeExito"] = "Sala Eliminada Exitosamente.";
             return RedirectToAction(nameof(Index));
         }
 

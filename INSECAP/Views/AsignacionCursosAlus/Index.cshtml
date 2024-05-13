@@ -41,7 +41,7 @@
                 Sala Asignada
             </th>
             <th>
-                Fecha de Inicio
+                Fecha de Inicio y Fecha de Fin
             </th>
             <th>
                Nombre Completo
@@ -61,15 +61,15 @@
                     @Html.DisplayFor(modelItem => item.CodigoSalaNavigation.CodigoSala)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaInicio)
+                    @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaInicio) - @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaFin)
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.RunAlumnoNavigation.Nombre) @Html.DisplayFor(modelItem => item.RunAlumnoNavigation.Apellido)
             </td>
             <td>
-                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.IdAsignacion">Editar Asignacion</a> |
-                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdAsignacion">Detalles de la Asignacion</a> |
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdAsignacion">Eliminar Asignacion</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.IdAsignacion">Editar</a> |
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdAsignacion">Detalles</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdAsignacion">Eliminar</a>
             </td>
         </tr>
 }
