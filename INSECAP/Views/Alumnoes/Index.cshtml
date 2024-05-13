@@ -5,8 +5,25 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Administracion Alumnado</h1>
-
+<h1>Administración Alumnado</h1>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    // Función para mostrar una alerta de éxito
+    @if (TempData.ContainsKey("MensajeExito"))
+    {
+        var mensajeExito = TempData["MensajeExito"] as string;
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito!',
+                text: '@mensajeExito'
+            }).then(function () {
+                // Redirige al usuario a la página "Create"
+                window.location.href = '@Url.Action("Index", "Alumnoes")';
+            });
+        </text>
+    }
+</script>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Agregar un Nuevo Alumno</a>
@@ -44,10 +61,10 @@
                     @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                    @Html.DisplayFor(modelItem => item.FechaNacimiento)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Genero)
+                    @Html.DisplayFor(modelItem => item.Genero)
             </td>
             <td>
                 <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.RunAlumno">Editar</a> |

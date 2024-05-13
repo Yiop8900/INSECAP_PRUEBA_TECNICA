@@ -31,3 +31,12 @@ body {
 .form_alumno {
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
+
+.sombra{
+    margin:0;
+}
+
+    .sombra:hover {
+        background-color: rgb(191, 191, 191);
+        transition: transform 0.1s;
+    }

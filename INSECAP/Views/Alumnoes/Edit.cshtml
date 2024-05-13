@@ -4,50 +4,92 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editar Alumno</h1>
 
-<h4>Alumno</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+        <script>
+            // Función para mostrar una alerta de error
+            @if (TempData.ContainsKey("MensajeError"))
+            {
+                var mensajeError = TempData["MensajeError"] as string;
+                <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '@mensajeError'
+                    });
+                </text>
+            }
+
+                // Función para mostrar una alerta de éxito
+            @if (TempData.ContainsKey("MensajeExito"))
+            {
+                var mensajeExito = TempData["MensajeExito"] as string;
+                <text>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito!',
+                        text: '@mensajeExito'
+                    }).then(function () {
+                        // Redirige al usuario a la página "Create"
+                        window.location.href = '@Url.Action("Index", "Alumnoes")';
+                    });
+                </text>
+            }
+        </script>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RunAlumno" />
             <div class="form-group">
                 <label asp-for="DvAlumno" class="control-label"></label>
-                <input asp-for="DvAlumno" class="form-control" />
+                <input type="text" asp-for="DvAlumno" class="form-control form_alumno" readonly/>
                 <span asp-validation-for="DvAlumno" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <input asp-for="Nombre" class="form-control form_alumno" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
+                <input asp-for="Apellido" class="form-control form_alumno" />
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
+                <input asp-for="FechaNacimiento" class="form-control form_alumno" readonly/>
                 <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Genero" class="control-label"></label>
-                <input asp-for="Genero" class="form-control" />
+            <div class="form-group" style="margin-top: 10px ;">
+                <label class="control-label">Género</label><br>
+                <label class="radio-inline">
+                    <input type="radio" asp-for="Genero" value="M" id="generoM" checked /> Masculino
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" asp-for="Genero" value="F" id="generoF" /> Femenino
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" asp-for="Genero" value="O" id="generoO" /> Otro
+                </label>
                 <span asp-validation-for="Genero" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group" style="margin-top:10px;">
+                <input type="submit" value="Guardar" class="btn btn-primary" /> | <a asp-action="Index" class="btn btn-dark">Volver al Listado</a>
             </div>
         </form>
     </div>
+    <div class="col-md-8">
+        <img src="~/img/informatico.jpg" alt="Alternate Text" class="imagen_guardar_alumno"/>
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+    
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

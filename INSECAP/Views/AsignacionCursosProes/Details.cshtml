@@ -4,33 +4,38 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalles de la Asignacion</h1>
 
 <div>
-    <h4>AsignacionCursosPro</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoCursoNavigation)
+        <dt class = "col-sm-3">
+            CURSO ASIGNADO
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CodigoCursoNavigation.CodigoCurso)
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.CodigoCursoNavigation.CodigoCurso) - @Html.DisplayFor(model => model.CodigoCursoNavigation.NombreCurso)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdBimestreNavigation)
+        <dt class = "col-sm-3">
+            FECHA DE INICIO Y FIN DEL BIMESTRE
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdBimestreNavigation.IdBimestre)
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.IdBimestreNavigation.FechaInicio) - @Html.DisplayFor(model => model.IdBimestreNavigation.FechaFin)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RunProfesorNavigation)
+        <dt class = "col-sm-3">
+            RUT DEL PROFESOR
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RunProfesorNavigation.RunProfesor)
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.RunProfesorNavigation.RunProfesor)-@Html.DisplayFor(model => model.RunProfesorNavigation.DvProfesor)
+        </dd>
+        <dt class="col-sm-3">
+            NOMBRE DEL PROFESOR
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.RunProfesorNavigation.Nombre) @Html.DisplayFor(model => model.RunProfesorNavigation.Apellido)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdAsignacion">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.IdAsignacion" class="btn btn-info">Editar</a> |
+    <a asp-action="Index" class="btn btn-dark">Volver al Listado</a>
 </div>

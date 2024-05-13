@@ -62,24 +62,63 @@ namespace INSECAP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdAsignacion,CodigoCurso,CodigoSala,RunAlumno,IdBimestre")] AsignacionCursosAlu asignacionCursosAlu)
+        public async Task<IActionResult> Create([Bind("CodigoCurso,CodigoSala,RunAlumno,IdBimestre")] AsignacionCursosAlu asignacionCursosAlu)
         {
-            if (ModelState.IsValid)
+            
+
+            try
             {
-                _context.Add(asignacionCursosAlu);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.Remove("CodigoCursoNavigation");
+                ModelState.Remove("CodigoSalaNavigation");
+                ModelState.Remove("RunAlumnoNavigation");
+                ModelState.Remove("IdBimestreNavigation");
+                if (ModelState.IsValid)
+                {
+                    var lastAsignacion = await _context.AsignacionCursosAlus.OrderByDescending(a => a.IdAsignacion).FirstOrDefaultAsync();
+                    asignacionCursosAlu.IdAsignacion = (lastAsignacion != null ? lastAsignacion.IdAsignacion : 0) + 1;
+
+
+                    var existingAsignacion = await _context.AsignacionCursosAlus.FirstOrDefaultAsync(a => a.IdAsignacion == asignacionCursosAlu.IdAsignacion);
+                    if (existingAsignacion != null)
+                    {
+                        TempData["MensajeError"] = "Esta asignacion ya existe.";
+                        return RedirectToAction(nameof(Create));
+
+                    }
+                    ViewData["CodigoCurso"] = new SelectList(_context.Cursos, "CodigoCurso", "CodigoCurso", asignacionCursosAlu.CodigoCurso);
+                    ViewData["CodigoSala"] = new SelectList(_context.Salas, "CodigoSala", "CodigoSala", asignacionCursosAlu.CodigoSala);
+                    ViewData["RunAlumno"] = new SelectList(_context.Alumnos, "RunAlumno", "RunAlumno", asignacionCursosAlu.RunAlumno);
+                    ViewData["IdBimestre"] = new SelectList(_context.Bimestres.Select(b => new SelectListItem
+                    {
+                        Value = b.IdBimestre.ToString(),
+                        Text = b.FechaInicio.ToString("dd/MM/yyyy") // Ajusta el formato de la fecha según tus necesidades
+                    }), "Value", "Text");
+
+
+
+                    _context.Add(asignacionCursosAlu);
+                    await _context.SaveChangesAsync();
+                    TempData["MensajeExito"] = "Asignado Correctamente.";
+
+                    return RedirectToAction(nameof(Create));
+                }
+                return RedirectToAction(nameof(Create));
+
             }
-            ViewData["CodigoCurso"] = new SelectList(_context.Cursos, "CodigoCurso", "CodigoCurso", asignacionCursosAlu.CodigoCurso);
-            ViewData["CodigoSala"] = new SelectList(_context.Salas, "CodigoSala", "CodigoSala", asignacionCursosAlu.CodigoSala);
-            ViewData["IdBimestre"] = new SelectList(_context.Bimestres, "IdBimestre", "IdBimestre", asignacionCursosAlu.IdBimestre);
-            ViewData["RunAlumno"] = new SelectList(_context.Alumnos, "RunAlumno", "RunAlumno", asignacionCursosAlu.RunAlumno);
-            return View(asignacionCursosAlu);
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al guardar la asignación del curso: " + ex.Message);
+                Console.WriteLine("Seguimiento de la pila: " + ex.StackTrace);
+                // Manejo de la excepción
+                TempData["MensajeError"] = "Error al guardar la asignación del curso: " + ex.Message;
+                return RedirectToAction(nameof(Create));
+            }
         }
 
         // GET: AsignacionCursosAlus/Editar
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -104,6 +143,10 @@ namespace INSECAP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdAsignacion,CodigoCurso,CodigoSala,RunAlumno,IdBimestre")] AsignacionCursosAlu asignacionCursosAlu)
         {
+            ModelState.Remove("CodigoCursoNavigation");
+            ModelState.Remove("CodigoSalaNavigation");
+            ModelState.Remove("RunAlumnoNavigation");
+            ModelState.Remove("IdBimestreNavigation");
             if (id != asignacionCursosAlu.IdAsignacion)
             {
                 return NotFound();
@@ -113,11 +156,16 @@ namespace INSECAP.Controllers
             {
                 try
                 {
+                    
                     _context.Update(asignacionCursosAlu);
+
+                    TempData["MensajeExito"] = "Editado Correctamente.";
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Edit));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    TempData["MensajeError"] = "Error al editar: " + ex.Message;
                     if (!AsignacionCursosAluExists(asignacionCursosAlu.IdAsignacion))
                     {
                         return NotFound();
@@ -170,6 +218,7 @@ namespace INSECAP.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["MensajeExito"] = "Eliminado Correctamente.";
             return RedirectToAction(nameof(Index));
         }
 

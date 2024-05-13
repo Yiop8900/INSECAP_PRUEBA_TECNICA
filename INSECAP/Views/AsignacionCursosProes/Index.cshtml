@@ -4,42 +4,72 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Asignar un Curso a un Profesor</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Agregar una Nueva Asignacion</a>
 </p>
+
+<p class="">
+    <a class="btn btn-dark" asp-area="" asp-controller="Profesors" asp-action="index">Volver al Listado de Profesores</a>
+</p>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    // Función para mostrar una alerta de éxito
+    @if (TempData.ContainsKey("MensajeExito"))
+    {
+        var mensajeExito = TempData["MensajeExito"] as string;
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito!',
+                text: '@mensajeExito'
+            }).then(function () {
+                // Redirige al usuario a la página "Create"
+                window.location.href = '@Url.Action("Index", "AsignacionCursosProes")';
+            });
+        </text>
+    }
+</script>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CodigoCursoNavigation)
+                CURSO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdBimestreNavigation)
+                INCIO DEL BIMESTRE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RunProfesorNavigation)
+                RUT DEL PROFESOR
             </th>
-            <th></th>
+            <th>
+                NOMBRE DEL PROFESOR
+            </th>
+            <th>
+                OPCIONES
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.CodigoCurso)
+                    @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.CodigoCurso) - @Html.DisplayFor(modelItem => item.CodigoCursoNavigation.NombreCurso)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdBimestreNavigation.IdBimestre)
+                @Html.DisplayFor(modelItem => item.IdBimestreNavigation.FechaInicio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RunProfesorNavigation.RunProfesor)
+                    @Html.DisplayFor(modelItem => item.RunProfesorNavigation.RunProfesor)-@Html.DisplayFor(modelItem => item.RunProfesorNavigation.DvProfesor)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RunProfesorNavigation.Nombre) @Html.DisplayFor(modelItem => item.RunProfesorNavigation.Apellido)
+                </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdAsignacion">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdAsignacion">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdAsignacion">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdAsignacion" class="btn btn-warning">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdAsignacion" class="btn btn-info">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdAsignacion" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
 }

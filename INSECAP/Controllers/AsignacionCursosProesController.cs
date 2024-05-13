@@ -62,11 +62,30 @@ namespace INSECAP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdAsignacion,CodigoCurso,RunProfesor,IdBimestre")] AsignacionCursosPro asignacionCursosPro)
         {
+
+            ModelState.Remove("CodigoCursoNavigation");
+            ModelState.Remove("CodigoSalaNavigation");
+            ModelState.Remove("RunProfesorNavigation");
+            ModelState.Remove("IdBimestreNavigation");
+
             if (ModelState.IsValid)
             {
+                var lastAsignacion = await _context.AsignacionCursosPros.OrderByDescending(a => a.IdAsignacion).FirstOrDefaultAsync();
+                asignacionCursosPro.IdAsignacion = (lastAsignacion != null ? lastAsignacion.IdAsignacion : 0) + 1;
+
+                var existingAsignacion = await _context.AsignacionCursosPros.FirstOrDefaultAsync(a => a.IdAsignacion == asignacionCursosPro.IdAsignacion);
+                if (existingAsignacion != null)
+                {
+                    TempData["MensajeError"] = "Esta asignacion ya existe.";
+                    return RedirectToAction(nameof(Create));
+
+                }
+
                 _context.Add(asignacionCursosPro);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["MensajeExito"] = "Asignado Correctamente.";
+
+                return RedirectToAction(nameof(Create));
             }
             ViewData["CodigoCurso"] = new SelectList(_context.Cursos, "CodigoCurso", "CodigoCurso", asignacionCursosPro.CodigoCurso);
             ViewData["IdBimestre"] = new SelectList(_context.Bimestres, "IdBimestre", "IdBimestre", asignacionCursosPro.IdBimestre);
@@ -100,6 +119,12 @@ namespace INSECAP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdAsignacion,CodigoCurso,RunProfesor,IdBimestre")] AsignacionCursosPro asignacionCursosPro)
         {
+
+            ModelState.Remove("CodigoCursoNavigation");
+            ModelState.Remove("CodigoSalaNavigation");
+            ModelState.Remove("RunProfesorNavigation");
+            ModelState.Remove("IdBimestreNavigation");
+
             if (id != asignacionCursosPro.IdAsignacion)
             {
                 return NotFound();
@@ -110,10 +135,13 @@ namespace INSECAP.Controllers
                 try
                 {
                     _context.Update(asignacionCursosPro);
+                    TempData["MensajeExito"] = "Editado Correctamente.";
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Create));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    TempData["MensajeError"] = "Error al editar: " + ex.Message;
                     if (!AsignacionCursosProExists(asignacionCursosPro.IdAsignacion))
                     {
                         return NotFound();
@@ -164,6 +192,7 @@ namespace INSECAP.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["MensajeExito"] = "Eliminado Correctamente.";
             return RedirectToAction(nameof(Index));
         }
 

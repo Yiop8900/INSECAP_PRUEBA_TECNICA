@@ -105,9 +105,10 @@ public partial class CapacitacionesContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Asignacion_Cursos_Alu_Bimestre");
 
-            entity.HasOne(d => d.RunAlumnoNavigation).WithMany(p => p.AsignacionCursosAlus)
+            entity.HasOne(d => d.RunAlumnoNavigation)
+                .WithMany(p => p.AsignacionCursosAlus)
                 .HasForeignKey(d => d.RunAlumno)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade) // Cambia a DeleteBehavior.Cascade
                 .HasConstraintName("FK_Asignacion_Cursos_Alu_Alumno");
         });
 
@@ -141,7 +142,7 @@ public partial class CapacitacionesContext : DbContext
 
             entity.HasOne(d => d.RunProfesorNavigation).WithMany(p => p.AsignacionCursosPros)
                 .HasForeignKey(d => d.RunProfesor)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Asignacion_Cursos_Pro_Profesor");
         });
 
@@ -200,9 +201,10 @@ public partial class CapacitacionesContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Notas_Bimestre");
 
-            entity.HasOne(d => d.RunAlumnoNavigation).WithMany(p => p.Nota)
+            entity.HasOne(d => d.RunAlumnoNavigation)
+                .WithMany(p => p.Nota)
                 .HasForeignKey(d => d.RunAlumno)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade) // Cambia a DeleteBehavior.Cascade
                 .HasConstraintName("FK_Notas_Alumno");
         });
 

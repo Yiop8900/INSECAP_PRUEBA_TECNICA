@@ -22,6 +22,12 @@ namespace INSECAP.Controllers
         // GET: Alumnoes
         public async Task<IActionResult> Index()
         {
+            if (TempData.ContainsKey("MensajeExito"))
+            {
+                // Si es así, pasa el mensaje a la vista
+                ViewBag.MensajeExito = TempData["MensajeExito"];
+            }
+
             return View(await _context.Alumnos.ToListAsync());
         }
 
@@ -112,10 +118,14 @@ namespace INSECAP.Controllers
                 try
                 {
                     _context.Update(alumno);
+
+                    TempData["MensajeExito"] = "Alumno Editado Exitosamente.";
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Edit));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    TempData["MensajeError"] = "Error al editar: " + ex.Message;
                     if (!AlumnoExists(alumno.RunAlumno))
                     {
                         return NotFound();
@@ -157,9 +167,11 @@ namespace INSECAP.Controllers
             if (alumno != null)
             {
                 _context.Alumnos.Remove(alumno);
+                
             }
 
             await _context.SaveChangesAsync();
+            TempData["MensajeExito"] = "Alumno Eliminado Exitosamente.";
             return RedirectToAction(nameof(Index));
         }
 

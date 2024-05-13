@@ -9,7 +9,29 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Asignar un Curso a un Alumno</a>
 </p>
-<table class="table">
+<p>
+    <a class="btn btn-dark text-white" asp-area="" asp-controller="Alumnoes" asp-action="index">Listado de Alumnos</a>
+</p>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    // Función para mostrar una alerta de éxito
+    @if (TempData.ContainsKey("MensajeExito"))
+    {
+        var mensajeExito = TempData["MensajeExito"] as string;
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito!',
+                text: '@mensajeExito'
+            }).then(function () {
+                // Redirige al usuario a la página "Create"
+                window.location.href = '@Url.Action("Index", "AsignacionCursosAlus")';
+            });
+        </text>
+    }
+</script>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
